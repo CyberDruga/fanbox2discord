@@ -5,6 +5,8 @@ import (
 
 	"dario.cat/mergo"
 	"github.com/BurntSushi/toml"
+	json_template "github.com/CyberDruga/fanbox2discord/src/json-template"
+	"github.com/CyberDruga/fanbox2discord/src/models/fanbox"
 	"github.com/go-errors/errors"
 )
 
@@ -56,6 +58,13 @@ func LoadConfig(filePath string) (config Config, err error) {
 
 		if acc.NewMessageTemplate == "" {
 			err = errors.Errorf("account number %d doesn't have [new-message-template] set", i+1)
+			return
+		}
+
+		_, err = json_template.ApplyTemplate(acc.NewMessageTemplate, fanbox.Post{})
+
+		if err != nil {
+			err = errors.Join(errors.Errorf("account number %d has [new-message-template] set to an invalid value", i+1), err)
 			return
 		}
 
