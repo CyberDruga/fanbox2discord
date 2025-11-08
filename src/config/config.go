@@ -1,6 +1,8 @@
 package config
 
 import (
+	"os"
+	"slices"
 	"time"
 
 	"dario.cat/mergo"
@@ -56,7 +58,7 @@ func LoadConfig(filePath string) (config Config, err error) {
 			return
 		}
 
-		if acc.NewMessageTemplate == "" {
+		if acc.NewMessageTemplate == "" && !slices.Contains(os.Args, "--print-example") {
 			err = errors.Errorf("account number %d doesn't have [new-message-template] set", i+1)
 			return
 		}
