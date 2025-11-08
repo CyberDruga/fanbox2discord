@@ -5,3 +5,4 @@ database.sqlite3
 config.toml
 webhook_url
 result
+vendor/*

@@ -1,0 +1,92 @@
+# Top level webhook url. If no account has their webhook-url set this one will be used instead
+webhook-url = "https://discord.com/api/webhooks/aaaaaaaaaaaaaaaaaaa/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+# The database to save which posts has been posted already.
+# If it doesn't exist it'll be created.
+# 
+# !!CAUTION!!
+# This field can be left empty, but the application will not remember wich post it has send to discord before.
+# And if you enable the [repeat] option, it'll send the same posts every time.
+database = "./database.sqlite3"
+
+# Configuration for setting  the application to repeat the query every so often
+[repeat]
+
+# Enables/disables this option
+enable = false
+
+# How much time in seconds it needs to wait for the next query.
+#
+# !!CAUTION!!
+# Just be mindful of setting this to a lower option. You might start getting rate limited by Fanbox, or worse
+# you can get IP Blocked
+every-x-seconds = 60
+
+# Accunts configuration
+[[account]]
+
+# Account level webhook-url. If this is set it'll be used instead of the top level one
+webhook-url = "https://discord.com/api/webhooks/bbbbbbbbbbbbbbbbbbb/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+
+# The Id of the creator
+creator-id = "henyathegenius"
+
+# A template for Discord messages. It uses the returning json of Fanbox API to populate these.
+# This uses Golang's templ language. To get an example of which fields are available for a post
+# execute the command with --print-example
+new-message-template = """
+{
+  "embeds": [
+    {
+      "author": {
+        "name": "{{ .User.Name }}",
+        "icon_url": "{{ .User.IconUrl }}",
+        "url": "https://{{ .CreatorId }}.fanbox.cc"
+      },
+      "title": "{{ .Title }}",
+      "color": 3542783,
+      "url": "https://{{ .CreatorId }}.fanbox.cc/posts/{{ .PostId }}",
+      "description": "{{ .Excerpt }}",
+      "image": {
+        "url": "{{ .Cover.Url }}"
+      },
+      "timestamp": "{{ .PublishedDatetime }}",
+      "footer": {
+        "text": "Pledge: {{ .FeeRequired }} JYP"
+      }
+    }
+  ],
+  "username": "Henya Henya Fanbox Bot"
+}
+"""
+
+# You can define multiple accounts
+# Notice how there's no `webhook-url` in this account. This means it'll use the top level one
+# 
+#[[account]]
+#creator-id = "sushidog"
+#new-message-template = """
+#{
+#  "embeds": [
+#    {
+#      "author": {
+#        "name": "{{ .User.Name }}",
+#        "icon_url": "{{ .User.IconUrl }}",
+#        "url": "https://{{ .CreatorId }}.fanbox.cc"
+#      },
+#      "title": "{{ .Title }}",
+#      "color": 3542783,
+#      "url": "https://{{ .CreatorId }}.fanbox.cc/posts/{{ .PostId }}",
+#      "description": "{{ .Excerpt }}",
+#      "timestamp": "{{ .PublishedDatetime }}",
+#      "image": {
+#        "url": "{{ .Cover.Url }}"
+#      },
+#      "footer": {
+#        "text": "Pledge: {{ .FeeRequired }} JYP"
+#      }
+#    }
+#  ],
+#  "username": "Sushidog's Fanbox Bot"
+#}
+#"""
