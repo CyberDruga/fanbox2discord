@@ -2,3 +2,4 @@ Session.vim
 .direnv/*
 fanbox2discord
 database.sqlite3
+config.toml
