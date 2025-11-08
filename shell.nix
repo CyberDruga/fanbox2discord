@@ -9,9 +9,12 @@ in
 		packages = [
 			sqlc
 			sqlite
+			dbmate
 			(writeShellScriptBin "template" ''
 				${dir}/template.sh "$@"
 			'')
 		];
+
+		DATABASE_URL="sqlite:database.sqlite3";
 
 	}
