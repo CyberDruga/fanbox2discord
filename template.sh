@@ -3,6 +3,7 @@
 endpoint=
 creatorId="henyathegenius"
 firstId=
+jq_arg=
 
 while [[ -n "$1" ]]; do
 	case "$1" in
@@ -21,6 +22,10 @@ while [[ -n "$1" ]]; do
 		--firstId)
 			shift
 			firstId=$1
+			;;
+		--jq)
+			shift
+			jq_arg="$1"
 			;;
 		*)
 			echo "argument $1 is not valid " >&2
@@ -70,5 +75,5 @@ case "$endpoint" in
 esac
 
 
-curl "${chatterino_args[@]}" | jq "${@:-.}"
+curl "${chatterino_args[@]}" | jq "${jq_arg}"
 
