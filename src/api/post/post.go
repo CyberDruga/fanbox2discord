@@ -83,8 +83,14 @@ Default values:
 */
 func ListCreator(params ListCreatorParams) (result fanbox.Posts, err error) {
 
+	japan, err := time.LoadLocation("Japan")
+
+	if err != nil {
+		panic(err)
+	}
+
 	defaultArgs := ListCreatorParams{
-		FirstPublishedDatetime: url.PathEscape(time.Now().Format(time.DateTime)),
+		FirstPublishedDatetime: url.PathEscape(time.Now().In(japan).Format(time.DateTime)),
 		Sort:                   "newest",
 		Limit:                  "10",
 	}
