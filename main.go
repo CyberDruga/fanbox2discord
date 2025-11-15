@@ -41,7 +41,6 @@ func main() {
 	slog.SetDefault(slog.New(handler))
 
 	var configFile = "./config.toml"
-	slices.Index(os.Args, "--config")
 
 	if i := slices.Index(os.Args, "--config"); i != -1 {
 		configFile = os.Args[i+1]
