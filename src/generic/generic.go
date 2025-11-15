@@ -7,6 +7,7 @@ import (
 
 	"github.com/CyberDruga/fanbox2discord/src/api/post"
 	"github.com/CyberDruga/fanbox2discord/src/models/fanbox"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/go-errors/errors"
 )
 
@@ -86,6 +87,8 @@ func GetLatestPosts(creatorId string) (result []fanbox.Post, err error) {
 	if err != nil {
 		err = errors.Join(errors.Errorf("Couldn't get posts"), err)
 	}
+
+	slog.Debug("After getting posts", "posts", spew.Sdump(posts.Body))
 
 	result = posts.Body
 
